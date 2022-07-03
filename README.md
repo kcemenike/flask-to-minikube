@@ -21,3 +21,9 @@ In this project, we will be using Minikube (a local installation of Kubernetes) 
 
 You can scale the deployment (to 10 pods, for example) by running `kubectl scale deployment flask-k8s-app --replicas=10`
 
+## Cleanup
+To cleanup, run  
+`kubectl delete -f k8s/ingress.yml`  
+`kubectl delete -f k8s/deployment.yml`  
+`minikube image rm flask-k8s`
+
