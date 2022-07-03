@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-k8s-app
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-k8s-app
+  template: # template for each pod in this deployment
+    metadata:
+      labels:
+        app: flask-k8s-app
+    spec:
+      containers:
+        - name: flask-app-container
+          image: flask-k8s:latest
+          imagePullPolicy: IfNotPresent # Check local first
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+spec:
+  type: ClusterIP # this is the default
+  selector:
+    app: flask-k8s-app # find pods with this label (line 14)
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 5000 # same as containerPort
+
